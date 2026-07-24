@@ -1,7 +1,7 @@
 const container = document.getElementById('trail-container');
 
 // Array of 20 unique images for the trail, using different seeds from picsum
-const images = Array.from({length: 20}, (_, i) => `https://picsum.photos/seed/${i + 500}/400/600`);
+const images = Array.from({ length: 20 }, (_, i) => `https://picsum.photos/seed/${i + 500}/400/600`);
 
 let globalIndex = 0;
 let lastMousePos = { x: 0, y: 0 };
@@ -15,7 +15,7 @@ const initPreloader = async () => {
         isAppReady = true;
         return;
     }
-    
+
     // Load all images
     const promises = images.map(src => {
         return new Promise((resolve) => {
@@ -26,19 +26,18 @@ const initPreloader = async () => {
         });
     });
 
-    // Ensure animation plays for at least 3 seconds (2.5s stroke + 0.5s margin)
+    // Ensure animation plays for a specific duration
     const animationPromise = new Promise(resolve => setTimeout(resolve, 3000));
-    
+
     await Promise.all([...promises, animationPromise]);
-    
-    // Fill the monogram
+
     loader.classList.add('finished');
-    
+
     // Wait for the fill animation to hold for a moment
     setTimeout(() => {
         loader.classList.add('hide');
         isAppReady = true;
-        
+
         // Remove loader from DOM after fade out
         setTimeout(() => {
             if (loader.parentNode) loader.parentNode.removeChild(loader);
@@ -58,18 +57,18 @@ const getDistance = (p1, p2) => {
 const handleMove = (x, y) => {
     if (!isAppReady) return;
     const currentMousePos = { x, y };
-    
+
     // Check if mouse moved enough distance to drop a new image
     if (getDistance(lastMousePos, currentMousePos) < distanceThreshold) {
         return;
     }
-    
+
     lastMousePos = currentMousePos;
 
     // Create image element
     const img = document.createElement('img');
     img.className = 'trail-image';
-    
+
     // Select image source
     img.src = images[globalIndex % images.length];
     globalIndex++;
@@ -77,9 +76,9 @@ const handleMove = (x, y) => {
     // Position image at cursor
     img.style.left = `${currentMousePos.x}px`;
     img.style.top = `${currentMousePos.y}px`;
-    
+
     // Gentle random rotation for an elegant feel when fading out
-    const randomRotation = (Math.random() - 0.5) * 15; 
+    const randomRotation = (Math.random() - 0.5) * 15;
     img.style.setProperty('--rotation', randomRotation);
 
     // Append to container
@@ -99,7 +98,7 @@ const handleMove = (x, y) => {
 
     // Remove from DOM after transition completes (400ms delay + 1.5s transition)
     setTimeout(() => {
-        if(img.parentNode) {
+        if (img.parentNode) {
             container.removeChild(img);
         }
     }, 2000);

@@ -26,10 +26,9 @@ html {
     text-align: center;
     z-index: 10;
     pointer-events: none;
-    /* Let mouse interact with background */
+
 }
 
-/* Standard layout */
 .hero-content {
     color: var(--text-color);
 }
@@ -69,13 +68,10 @@ html {
     object-fit: cover;
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
-    /* Quick, elegant transition for popping in */
     transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    /* Luxury soft photo style */
     filter: sepia(10%) contrast(105%) brightness(1.05) saturate(80%);
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 4px;
-    /* Soft diffused drop shadow */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
@@ -87,7 +83,6 @@ html {
 .trail-image.fade-out {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.6) rotate(calc(var(--rotation) * 1deg));
-    /* Slower, graceful transition for fading out */
     transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
 }
 
@@ -117,7 +112,8 @@ html {
     font-weight: 400;
     fill: transparent;
     stroke: var(--text-color);
-    stroke-width: 0.5px; /* Ultra-thin */
+    stroke-width: 0.5px;
+    /* Ultra-thin */
     stroke-dasharray: 500;
     stroke-dashoffset: 500;
     animation: drawStroke 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.4s;
