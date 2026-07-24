@@ -7,6 +7,47 @@ let globalIndex = 0;
 let lastMousePos = { x: 0, y: 0 };
 const distanceThreshold = 60; // Distance required before dropping a new image
 
+let isAppReady = false;
+
+const initPreloader = async () => {
+    const loader = document.getElementById('loader');
+    if (!loader) {
+        isAppReady = true;
+        return;
+    }
+    
+    // Load all images
+    const promises = images.map(src => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = resolve;
+            img.onerror = resolve; // Continue even if one fails
+        });
+    });
+
+    // Ensure animation plays for at least 3 seconds (2.5s stroke + 0.5s margin)
+    const animationPromise = new Promise(resolve => setTimeout(resolve, 3000));
+    
+    await Promise.all([...promises, animationPromise]);
+    
+    // Fill the monogram
+    loader.classList.add('finished');
+    
+    // Wait for the fill animation to hold for a moment
+    setTimeout(() => {
+        loader.classList.add('hide');
+        isAppReady = true;
+        
+        // Remove loader from DOM after fade out
+        setTimeout(() => {
+            if (loader.parentNode) loader.parentNode.removeChild(loader);
+        }, 1500);
+    }, 1200);
+};
+
+initPreloader();
+
 // Helper function to calculate distance
 const getDistance = (p1, p2) => {
     const dx = p1.x - p2.x;
@@ -15,6 +56,7 @@ const getDistance = (p1, p2) => {
 };
 
 const handleMove = (x, y) => {
+    if (!isAppReady) return;
     const currentMousePos = { x, y };
     
     // Check if mouse moved enough distance to drop a new image

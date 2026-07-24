@@ -90,3 +90,51 @@ html {
     /* Slower, graceful transition for fading out */
     transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
 }
+
+/* Preloader Styles */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.l-logo {
+    width: 200px;
+    height: 200px;
+}
+
+.l-text {
+    font-family: 'Great Vibes', 'Playfair Display', cursive, serif;
+    font-size: 86px;
+    font-weight: 400;
+    fill: transparent;
+    stroke: var(--text-color);
+    stroke-width: 0.5px; /* Ultra-thin */
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: drawStroke 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.4s;
+}
+
+@keyframes drawStroke {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.loader.finished .l-text {
+    fill: var(--text-color);
+    transition: fill 1.2s ease-in-out;
+}
+
+.loader.hide {
+    opacity: 0;
+    pointer-events: none;
+}
