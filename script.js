@@ -14,8 +14,8 @@ const getDistance = (p1, p2) => {
     return Math.sqrt(dx * dx + dy * dy);
 };
 
-document.addEventListener('mousemove', (e) => {
-    const currentMousePos = { x: e.clientX, y: e.clientY };
+const handleMove = (x, y) => {
+    const currentMousePos = { x, y };
     
     // Check if mouse moved enough distance to drop a new image
     if (getDistance(lastMousePos, currentMousePos) < distanceThreshold) {
@@ -61,4 +61,14 @@ document.addEventListener('mousemove', (e) => {
             container.removeChild(img);
         }
     }, 2000);
+};
+
+document.addEventListener('mousemove', (e) => {
+    handleMove(e.clientX, e.clientY);
 });
+
+document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+        handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
+}, { passive: true });
