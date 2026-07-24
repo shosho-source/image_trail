@@ -16,6 +16,12 @@ const initPreloader = async () => {
         return;
     }
 
+    // Wait for the font to load before starting the animation
+    if (document.fonts) {
+        await document.fonts.ready;
+    }
+    loader.classList.add('start-animation');
+
     // Load all images
     const promises = images.map(src => {
         return new Promise((resolve) => {
@@ -96,7 +102,7 @@ const handleMove = (x, y) => {
         img.classList.add('fade-out');
     }, 400);
 
-    // Remove from DOM after transition completes (400ms delay + 1.5s transition)
+    // Remove from DOM after transition completesS
     setTimeout(() => {
         if (img.parentNode) {
             container.removeChild(img);
